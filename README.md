@@ -114,6 +114,3 @@ This project is for educational purposes and uses only open-source tools. No ext
 Made with passion by Mayur Giri (AI & DS)
 
 ---
-
-Let me know if you'd like a professional **project report (DOC/PDF)** or **presentation (PPT)** as well.
-
