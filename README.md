@@ -18,7 +18,17 @@ This mini project allows users to upload an original video file and convert its 
 
 ## 📁 Folder Structure
 
-speech_to_text_project/ ├── app.py                        # Streamlit main app ├── requirements.txt              # Required packages ├── README.md                     # Project documentation ├── utils/ │   ├── transcriber.py            # (Optional) for modular transcription logic │   ├── translator.py             # Translation utility │   └── pdf_exporter.py           # PDF generation logic └── assets/ └── sample_video.mp4          # (Optional) test file
+ speech_to_text_project/
+├── app.py                   # Main Streamlit application
+├── requirements.txt         # List of required Python packages
+├── README.md                # Project documentation
+├── utils/                   # Utility functions
+│   ├── translator.py        # Handles language translation
+│   └── pdf_exporter.py      # Generates transcript PDF
+├── assets/                  # Folder for sample videos or audio files
+│   └── sample_video.mp4     # (Optional) Sample input file
+└── output/                  # Stores generated transcript and PDF
+    └── transcript.pdf       # (Generated) Transcript file     # (Optional) test file
 
 ---
 
