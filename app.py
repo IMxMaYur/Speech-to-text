@@ -20,21 +20,21 @@ ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mov', 'wmv', 'flv', 'mkv'}
 TEMP_DIR = tempfile.gettempdir()
 
 def allowed_file(filename):
+    """Check if the file is allowed for upload based on its extension"""
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/')
 def index():
+    """Render the index page"""
     return render_template('index.html')
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
-    # Check if the post request has the file part
+    """Handle video upload, extract audio, and perform transcription"""
     if 'video' not in request.files:
         return jsonify({'error': 'No file part'}), 400
     
     file = request.files['video']
-    
-    # If user doesn't select a file
     if file.filename == '':
         return jsonify({'error': 'No file selected'}), 400
     
@@ -53,20 +53,12 @@ def upload_file():
             file.save(video_path)
             logger.debug(f"Saved video to: {video_path}")
             
-            try:
-                # Extract audio from video
-                extract_audio(video_path, audio_path)
-                logger.debug(f"Extracted audio to: {audio_path}")
-                
-                try:
-                    # Transcribe the audio - with better error handling
-                    transcript = transcribe_audio(audio_path)
-                except Exception as transcribe_error:
-                    logger.error(f"Error in transcription: {transcribe_error}")
-                    transcript = f"Could not transcribe audio. Error: {str(transcribe_error)}"
-            except Exception as extract_error:
-                logger.error(f"Error extracting audio: {extract_error}")
-                transcript = f"Could not extract audio from video. Error: {str(extract_error)}"
+            # Extract audio from video
+            extract_audio(video_path, audio_path)
+            logger.debug(f"Extracted audio to: {audio_path}")
+            
+            # Transcribe the audio using Whisper
+            transcript = transcribe_audio(audio_path)
             
             # Return the result (even if it's an error message)
             return jsonify({
@@ -91,6 +83,7 @@ def upload_file():
 
 @app.route('/download', methods=['POST'])
 def download_transcript():
+    """Allow the user to download the transcript as a text file"""
     try:
         transcript = request.json.get('transcript', '')
         if not transcript:
