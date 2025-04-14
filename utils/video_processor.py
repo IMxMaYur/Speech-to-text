@@ -2,6 +2,7 @@ import os
 import logging
 import subprocess
 
+# Configure logging
 logger = logging.getLogger(__name__)
 
 def extract_audio(video_path, audio_output_path):
